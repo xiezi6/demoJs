@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>验证邮箱地址是否已经注册</title>
+	<link rel="stylesheet" href="./assets/bootstrap/dist/css/bootstrap.min.css">
+	<style type="text/css">
+		p:not(:empty) {
+			padding: 15px;
+		}
+
+		.container {
+			padding-top: 100px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="form-group">
+			<label>邮箱地址</label>
+			<input type="email" class="form-control" placeholder="请输入邮箱地址" id="email">
+		</div>
+		<!-- 错误 bg-danger 正确 bg-success -->
+		<p id="info"></p>
+	</div>
+	<script src="js/ajax.js"></script>
+
+	<script>
+		//1. 为文本框注册失焦事件
+		//2. 事件函数
+		//  1) 获取用户填写的邮箱地址
+		//  2) 验证用户填写的邮箱地址是否符合邮箱格式 -- 使用正则表达式来进行验证
+		//		如果不符合格式，则提示错误信息, 并阻止程序向下执行
+		//      如果符合格式，则向下执行即可
+		//  3) 发送ajax请求，并将邮箱地址一起发送给服务器端
+		var email = document.querySelector('#email');
+		var p = document.querySelector('#info');
+		//给email绑定blur事件
+		email.onblur = function () {
+			//获取email的内容对比正则表达式
+			var reg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+			var emailIn = email.value;
+			if (!reg.test(emailIn)) {
+				p.innerHTML = '您输入的邮箱格式不正确';
+				p.className = 'bg-danger';
+				return;
+			};
+			ajax({
+				type: 'get',
+				url: '/verifyEmailAdress',
+				data: {
+					data: emailIn,
+				},
+				success: function (data) {
+					p.innerHTML = data.message;
+					p.className = 'bg-success';
+				},
+				error: function (data) {
+					p.innerHTML = data.message;
+					p.className = 'bg-danger';
+				}
+			})
+		}
+
+	</script>
+
+</body>
+
+</html>

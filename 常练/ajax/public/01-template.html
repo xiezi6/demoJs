@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="/js/template-web.js"></script>
+</head>
+
+<body>
+	<div></div>
+	<table border="1" cellspacing='0px' align="center" width="500">
+	</table>
+
+	<!-- //创建模板 -->
+	<script type='text/html' id='tpl_1'>
+		<tr>
+			<td>name</td>
+			<td>{{name}}</td>
+		</tr>
+		<tr>
+			<td>hobbies</td>
+			{{each hobbies}}
+			<td>{{$value}}</td>
+			{{/each}}
+		</tr>
+		<tr>
+			<td>friends</td>
+			{{each friends}}
+			<td>{{$value.name}} {{$value.age}}岁 {{$value.gender}}</td>
+			{{/each}}
+		</tr>
+	</script>
+	<script type="text/javascript">
+		var obj = {
+			id: 1,
+			name: 'zs',
+			hobbies: ['lol', 'dnf', 'cf'],
+			friends: [
+				{ name: '小明', age: 8, gender: '男' },
+				{ name: '小红', age: 6, gender: '女' },
+				{ name: '小华', age: 7, gender: '女' }
+			]
+		}
+
+		//使用模板引擎拼接id、name、hobbies，再填入div标签中
+		var html = template('tpl_1', obj)
+
+		//使用模板引擎拼接friends，并填入table标签中
+		document.querySelector('table').innerHTML = html;
+	</script>
+</body>
+
+</html>

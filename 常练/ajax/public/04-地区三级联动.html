@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>搜索框输入文字自动提示</title>
+	<link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css">
+	<style type="text/css">
+		.container {
+			padding-top: 150px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="form-inline">
+			<div class="form-group">
+				<select class="form-control" id="province">
+					<option>请选择省份</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<select class="form-control" id="city">
+					<option>请选择城市</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<select class="form-control" id="area">
+					<option>请选择县区</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<script src="/js/ajax.js"></script>
+	<script src="/js/template-web.js"></script>
+	<!-- 创建省份模板 -->
+	<script type='text/html' id='tpl_pro'>
+		<option>请选择省份</option>
+		{{each data_pvc}}
+		<option value='{{$value.id}}'>{{$value.name}}</option>
+		{{/each}}
+	</script>
+	<!-- 创建城市模板 -->
+	<script type='text/html' id='tpl_city'>
+		<option>请选择城市</option>
+		{{each data_city}}
+		<option value='{{$value.id}}'>{{$value.name}}</option>
+		{{/each}}
+	</script>
+	<!-- 创建县区模板 -->
+	<script type='text/html' id='tpl_area'>
+		<option>请选择县区</option>
+		{{each data_area}}
+		<option value='{{$value.id}}'>{{$value.name}}</option>
+		{{/each}}
+	</script>
+
+
+	<script>
+		//获取省市区三个下拉菜单对象
+		var province = document.querySelector('#province');
+		var city = document.querySelector('#city');
+		var area = document.querySelector('#area');
+
+		ajax({
+			type: 'get',
+			url: '/province',
+			success: function (data) {
+				var str = template('tpl_pro', { data_pvc: data });
+				province.innerHTML = str;
+			}
+		})
+		//在省份框改变时绑定事件,把内容反馈给服务器,服务器返回数据,把数据给城市对象做内容,
+		province.onchange = function () {
+			var pvcValue = province.value;
+			var str_area = template('tpl_area', { data_area: [] });
+			area.innerHTML = str_area;
+			ajax({
+				type: 'get',
+				url: '/cities',
+				data: { id: pvcValue },
+				success: function (data) {
+					var str = template('tpl_city', { data_city: data });
+					city.innerHTML = str;
+				}
+			})
+		}
+		//在城市框改变时绑定事件,把内容反馈给服务器,服务器返回数据,把数据给县区对象做内容,
+		city.onchange = function () {
+			var cityValue = city.value;
+			ajax({
+				type: 'get',
+				url: '/areas',
+				data: { id: cityValue },
+				success: function (data) {
+					var str = template('tpl_area', { data_area: data });
+					area.innerHTML = str;
+				}
+			})
+		}
+
+	</script>
+
+</body>
+
+</html>

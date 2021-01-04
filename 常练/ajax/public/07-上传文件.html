@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css">
+	<style type="text/css">
+		.container {
+			padding-top: 60px;
+		}
+
+		.padding {
+			padding: 5px 0 20px 0;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="form-group">
+			<label>请选择文件</label>
+			<input type="file" id="file">
+		</div>
+		<div id='text'></div>
+	</div>
+	<script type="text/javascript">
+		//给上传文件控件绑定事件
+		/* var file = document.querySelector('#file');
+		var text = document.querySelector('#text');
+
+		file.onchange = function () {
+			//把文件添加到formDate空对象中
+			var formDate = new FormData();
+			// formDate.append('attrfile', this.files[0])
+			formDate.append('attrName', this.files[0])
+			//用post方法把文件发送给服务器
+			var ajax = new XMLHttpRequest();
+			ajax.open('post', '/upload');
+			ajax.send(formDate);
+			ajax.onload = function () {
+				text.innerHTML = ajax.responseText;
+			}
+		} */
+
+		var file = document.querySelector('#file');
+
+		file.onchange = function () {
+			var fd = new FormData();
+			fd.append('attrName', this.files[0]);
+			var ajax = new XMLHttpRequest();
+			ajax.open('post', '/upload');
+			ajax.send(fd);
+			ajax.onload = function () {
+				console.log(ajax.responseText);
+			}
+		}
+	</script>
+</body>
+
+</html>

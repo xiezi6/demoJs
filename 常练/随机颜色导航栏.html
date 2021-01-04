@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{margin:0;padding:0;}
+        ul{
+            list-style:none
+        }
+        div{
+            width:800px;
+            margin:100px auto;
+        }
+        div li{
+            float: left;
+            width:100px;
+            line-height: 30px;
+            background-color: pink;
+            margin-right:2px;
+            text-align: center;
+        }
+        .red{
+            background-color: red!important;
+        }
+    </style>
+</head>
+<body>
+<div id="nav">
+    <ul>
+        <li>导航</li>
+        <li>导航</li>
+        <li>导航</li>
+        <li>导航</li>
+        <li>导航</li>
+        <li>导航</li>
+        <li>导航</li>
+    </ul>
+</div>
+    <script>
+        // 随机设置7个li的背景色 
+        // 鼠标经过为红色
+        // 鼠标离开恢复之前的颜色
+        var colorArr = ['#daa520','#369','blue','purple','yellow','green','pink'];
+        var nav = document.getElementById('nav');
+        var lis = nav.getElementsByTagName('li');
+
+        for (var i = 0; i < lis.length; i++) {
+            var randomNum =  Math.floor(Math.random() * colorArr.length);
+            var randomNum = colorArr.splice(randomNum,1); 
+            lis[i].style.backgroundColor = randomNum;
+            lis[i].onmouseover = function () {
+                this.className = 'red';
+            };
+            lis[i].onmouseout = function () {
+                this.className = '';
+            };
+        }
+
+    </script>
+</body>
+</html>

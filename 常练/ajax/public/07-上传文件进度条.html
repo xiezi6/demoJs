@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css">
+	<style type="text/css">
+		.container {
+			padding-top: 60px;
+		}
+
+		.padding {
+			padding: 5px 0 20px 0;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="form-group">
+			<label>请选择文件</label>
+			<input type="file" id="file">
+			<!-- 进度条的边框 -->
+			<div class="progress">
+				<!-- 真正的进度条，width值会随着上传进度从 0% 变为 100% -->
+				<div class="progress-bar" style="width: 0%;" id="bar">0%</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var file = document.querySelector('#file');
+		var bar = document.querySelector('#bar');
+		file.onchange = function () {
+			var fd = new FormData();
+			fd.append('attrName', this.files[0]);
+			var ajax = new XMLHttpRequest();
+			ajax.open('post', '/upload');
+			//要写在发送之前
+			ajax.upload.onprogress = function (ev) {
+				var result = parseInt(ev.loaded / ev.total) * 100 + "%";
+				bar.style.width = result;
+				bar.innerHTML = result;
+			};
+			ajax.send(fd);
+			ajax.onload = function () {
+				console.log(ajax.responseText);
+			}
+		}
+
+	</script>
+</body>
+
+</html>

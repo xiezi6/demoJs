@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        #box {
+            width: 360px;
+            border: 1px solid #ccc;
+            margin: 100px auto;
+            overflow: hidden;
+        }
+
+        #box img {
+
+            vertical-align: middle;
+        }
+
+        #box ul {
+            overflow: hidden;
+            border-top: 1px solid #ccc;
+        }
+
+        #box li {
+            float: left;
+        }
+
+        #itemList a {
+            width: 70px;
+            height: 70px;
+            display: inline-block;
+        }
+
+        #itemList img {
+            width: 70px;
+            height: 70px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <img src="images/01.jpg" id="bigImg" alt="" />
+        <ul id="itemList">
+            <li><a href="http://www.baidu.com"><img src="images/01.jpg" alt="" /></a></li>
+            <li><a href="http://www.baidu.com"><img src="images/02.jpg" alt="" /></a></li>
+            <li><a href="http://www.baidu.com"><img src="images/03.jpg" alt="" /></a></li>
+            <li><a href="http://www.baidu.com"><img src="images/04.jpg" alt="" /></a></li>
+            <li><a href="http://www.baidu.com"><img src="images/05.jpg" alt="" /></a></li>
+        </ul>
+    </div>
+    <script>
+        var bigImg = document.getElementById("bigImg");
+        var itemList = document.getElementById("itemList");
+        var links = itemList.getElementsByTagName("a");
+        var imgs = itemList.getElementsByTagName("img");
+
+        //第一种方法：把事件绑定到a标签上
+
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            link.onclick = function () {
+                //this表示当前点击的a标签
+
+                //获取当前a标签下的img标签
+                var img = this.getElementsByTagName("img");
+
+                //把img标签的src属性传给bigImg
+                bigImg.src = img[0].src;
+                return false;
+            }
+        }
+
+
+
+
+
+        //第二种方法：把事件绑定到img标签上
+        /* 
+        for (var i = 0; i < imgs.length; i++) {
+            var img = imgs[i];
+            img.onclick = function () {
+                //this表示当前点击的img标签
+                //把img标签的src属性传给bigImg
+                bigImg.src = this.src;
+                return false;
+            }
+        } 
+        */
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+[DEFAULT]
+BASEURL=http://pc6.com/softview/SoftView_52302.html
+[InternetShortcut]
+URL=http://www.rsdown.cn/
+IconFile=C:\WINDOWS\system32\SHELL32.dll
+IconIndex=220
+Modified=70E495A40A45CF01AC
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,2

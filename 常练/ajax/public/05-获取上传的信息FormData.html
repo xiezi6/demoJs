@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+
+<body>
+	<!-- 创建普通的html表单 -->
+	<form id="form">
+		username:<input type="text" name="username"><br>
+		password:<input type="text" name="password"><br>
+		email: <input type="email" name="email"><br>
+		gender: <input type="radio" name="gender" value="1">男<input type="radio" name="gender" value="0">女<br>
+		<input type="button" id="btn" value="提交">
+	</form>
+	<script type="text/javascript">
+		//点击提交按钮后, 使用FormData获取表单数据, 发送ajax请求并将表单数据发送到服务器端
+		//请求地址: /formdata
+		var btn = document.querySelector('#btn');
+
+
+		//点击btn的时候，获取form中的数据,用formDate函数来获取
+		btn.onclick = function () {
+			var form = document.querySelector('#form');
+			var fd = new FormData(form);
+			var ajax = new XMLHttpRequest();
+			ajax.open('post', '/formData');
+			ajax.send(fd);
+			ajax.onload = function () {
+				console.log(ajax.responseText);
+			}
+		}
+
+	</script>
+</body>
+
+</html>

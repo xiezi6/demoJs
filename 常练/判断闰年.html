@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+        提醒用户输入年份，调用方法时给实参
+        方法名：theRunYear(year),用三元运算符：year%4==0&&year%100!=0||year%400==0
+         */
+        function theRunYear(year) {
+            if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+                return true;
+            } else {
+                // console.log(year + "不是闰年");
+                return false;
+            }
+        }
+        // alert(theRunYear(prompt("请输入年份")))
+        /* 
+        输出闰年或平年2月份的天数，
+        用函数，用if中且用上面的函数来做条件，
+         */
+        function days(year) {
+            if (theRunYear(year)) {
+                alert("今年2月份是29天");
+            } else {
+                alert("今年2月份是28天");
+            }
+        }
+        days(prompt("请输入年份"));
+    </script>
+</body>
+
+</html>

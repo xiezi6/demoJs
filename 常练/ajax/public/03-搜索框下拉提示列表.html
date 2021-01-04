@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>搜索框输入文字自动提示</title>
+	<link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css">
+	<style type="text/css">
+		.container {
+			padding-top: 150px;
+		}
+
+		.list-group {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="请输入搜索关键字" id="search">
+			<ul class="list-group" id="list-box">
+
+			</ul>
+		</div>
+	</div>
+	<script src="/js/ajax.js"></script>
+	<script src="/js/template-web.js"></script>
+	<script src="/js/jquery.min.js"></script>
+	<script type='text/html' id='tpl'>
+		{{each result}}
+		<li class="list-group-item">{{$value}}</li>
+		{{/each}}
+	</script>
+
+	<script>
+		//1. 为搜索文本框上注册input事件 (input事件是每输入一个字符就会触发一次)
+		//2. 事件函数
+		//   1) 获取文本框中输入的关键词，发送ajax请求并将关键词一起发送给服务器端
+		//   2) 获取到服务器段返回的相关关键词之后，使用模板引擎将结果拼接并显示在ul中
+		//      注意: ul 本身是隐藏的，需要使用display属性显示出来
+		var search = document.querySelector('#search');
+		var listBox = document.querySelector('#list-box');
+		var timer = null;
+		//给搜索框绑定输入事件,当有输入时给服务器传递,并接收服务器的信息
+		search.oninput = function () {
+			clearTimeout(timer);
+			//获取要传递给服务器的信息:搜索框的值
+			var searchIn = search.value;
+			if (searchIn.trim().length == 0) {
+				listBox.style.display = 'none';
+				return;
+			}
+			timer = setTimeout(ajax({
+				type: 'get',
+				url: '/searchAutoPrompt',
+				data: { key: searchIn },
+				success: function (data) {
+					var str = template('tpl', { result: data });
+					listBox.innerHTML = str;
+					listBox.style.display = 'block';
+				}
+			}), 2000)
+
+		}
+
+	</script>
+
+</body>
+
+</html>
